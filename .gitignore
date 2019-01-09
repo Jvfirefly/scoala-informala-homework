@@ -4,6 +4,8 @@
 # Ignore the .idea folder, meaning don´t upload it on github.com
 .idea
 
+*.iml
+
 # Log file
 *.log
 
