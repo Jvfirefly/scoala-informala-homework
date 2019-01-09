@@ -1,6 +1,9 @@
 # Compiled class file
 *.class
 
+# Ignore the .idea folder, meaning don´t upload it on github.com
+.idea
+
 # Log file
 *.log
 
