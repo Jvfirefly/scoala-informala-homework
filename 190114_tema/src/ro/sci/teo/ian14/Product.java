@@ -1,23 +1,26 @@
 package ro.sci.teo.ian14;
 
+/**
+ * The purpose of this class is to hold the common representation of AnimalProduct.java and of VegetalProduct.java.
+ *
+ * @author Teo
+ */
 public class Product {
     private String id;
     private String name;
     private double price;
     private String validityDate;
     private double weight;
-    private int stock;
 
     public Product() {
     }
 
-    public Product(String id, String name, double price, String validityDate, double weight, int stock) {
+    public Product(String id, String name, double price, String validityDate, double weight) {
         this.id = id;
         this.name = name;
         this.price = price;
         this.validityDate = validityDate;
         this.weight = weight;
-        this.stock = stock;
     }
 
     public String getId() {
@@ -60,14 +63,6 @@ public class Product {
         this.weight = weight;
     }
 
-    public int getStock() {
-        return stock;
-    }
-
-    public void setStock(int stock) {
-        this.stock = stock;
-    }
-
     @Override
     public String toString() {
         return "Product{" +
@@ -76,7 +71,6 @@ public class Product {
                 ", price=" + price +
                 ", validityDate=" + validityDate +
                 ", weight=" + weight +
-                ", stock=" + stock +
                 '}';
     }
 }

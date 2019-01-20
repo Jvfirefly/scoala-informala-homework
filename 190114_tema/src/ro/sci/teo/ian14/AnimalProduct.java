@@ -1,15 +1,18 @@
 package ro.sci.teo.ian14;
 
-import java.util.Date;
-
+/**
+ * This class represents an animal product.
+ *
+ * @author Teo
+ */
 public class AnimalProduct extends Product {
     private int storageTemp;
 
     public AnimalProduct() {
     }
 
-    public AnimalProduct(String id, String name, double price, String validityDate, double weight, int stock, int storageTemp) {
-        super(id, name, price, validityDate, weight, stock);
+    public AnimalProduct(String id, String name, double price, String validityDate, double weight, int storageTemp) {
+        super(id, name, price, validityDate, weight);
         this.storageTemp = storageTemp;
     }
 

@@ -1,31 +1,35 @@
 package ro.sci.teo.ian14;
 
-import java.util.Arrays;
-import java.util.Date;
+import java.util.*;
 
+/**
+ * This class represents a vegetable product.
+ *
+ * @author Teo
+ */
 public class VegetalProduct extends Product{
-    private String[] vitamins=new String[20];
+    private List<String> vitamins = new ArrayList<>();
 
     public VegetalProduct() {
     }
 
-    public VegetalProduct(String id, String name, double price, String validityDate, double weight, int stock, String[] vitamins) {
-        super(id, name, price, validityDate, weight, stock);
+    public VegetalProduct(String id, String name, double price, String validityDate, double weight, List<String> vitamins) {
+        super(id, name, price, validityDate, weight);
         this.vitamins = vitamins;
     }
 
-    public String[] getVitamins() {
+    public List<String> getVitamins() {
         return vitamins;
     }
 
-    public void setVitamins(String[] vitamins) {
+    public void setVitamins(List<String> vitamins) {
         this.vitamins = vitamins;
     }
 
     @Override
     public String toString() {
         return "VegetalProduct{" +
-                "vitamins=" + Arrays.toString(vitamins) +
+                "vitamins=" + vitamins +
                 "} " + super.toString();
     }
 }
