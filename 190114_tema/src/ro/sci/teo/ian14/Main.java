@@ -103,7 +103,7 @@ public class Main {
      */
     private static boolean orderIsValid(String productId, float qty, List<Item> stock) {
         for (Item item : stock)
-            if (productId.equals(item.getProduct().getId()) && qty == item.getStockNumber())
+            if (productId.equals(item.getProduct().getId()) && qty <= item.getStockNumber())
                 return true;
         return false;
     }
