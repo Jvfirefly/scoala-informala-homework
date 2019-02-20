@@ -1,5 +1,6 @@
 package ro.sci.teo.feb04;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 /**
@@ -12,29 +13,32 @@ public class Main {
     private static TicTacToe game = new TicTacToe();
 
     public static void main(String[] args) {
+        try {
+            Scanner sc = new Scanner(System.in);
 
-        Scanner sc = new Scanner(System.in);
+            while (!game.isWin() && !game.isDraw()) {
+                game.setCurrentPlayer();
+                boolean moveOk = false;
+                do {
+                    System.out.print("Player " + game.getCurrentPlayer() + ", enter your move (row[1-3] column[1-3]): ");
+                    int row = sc.nextInt();
+                    int col = sc.nextInt();
+                    if (game.placeMove(row - 1, col - 1)) {
+                        printBoard();
+                        moveOk = true;
+                    } else {
+                        System.out.println("This move at (" + row + "," + col + ") is not valid. Try again...");
+                    }
+                } while (!moveOk);
+            }
 
-        while (!game.isWin() && !game.isDraw()) {
-            game.setCurrentPlayer();
-            boolean moveOk=false;
-            do {
-                System.out.print("Player " + game.getCurrentPlayer() + ", enter your move (row[1-3] column[1-3]): ");
-                int row = sc.nextInt();
-                int col = sc.nextInt();
-                if (game.placeMove(row-1, col-1)) {
-                    printBoard();
-                    moveOk = true;
-                } else {
-                    System.out.println("This move at (" + row + "," + col + ") is not valid. Try again...");
-                }
-            } while (!moveOk);
+            if (game.isWin())
+                System.out.println("Player '" + game.getCurrentPlayer() + "' won!");
+            else
+                System.out.println("This game is a draw.");
+        } catch (InputMismatchException e) {
+            System.out.println("The row and the column must be integers.");
         }
-
-        if(game.isWin())
-            System.out.println("Player '"+ game.getCurrentPlayer() +"' won!");
-        else
-            System.out.println("This game is a draw.");
     }
 
     /**

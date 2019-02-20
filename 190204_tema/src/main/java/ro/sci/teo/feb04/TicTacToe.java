@@ -25,9 +25,9 @@ public class TicTacToe {
      */
     public void setCurrentPlayer() {
         if (this.currentPlayer == 'X')
-            this.currentPlayer= 'O';
+            this.currentPlayer = 'O';
         else
-            this.currentPlayer='X';
+            this.currentPlayer = 'X';
     }
 
     public char getCurrentPlayer() {
@@ -54,14 +54,14 @@ public class TicTacToe {
      * If the board is not full yet, it means that there still can be a winner, so the method returns false.
      * In case one of the two players wins with its last game move, the method isWin() recognizes this.
      *
-     * @see public boolean isWin() {...}
      * @return true or false
+     * @see public boolean isWin() {...}
      */
     public boolean isDraw() {
         boolean full = true;
         for (String cell : board.keySet())
-                if (board.get(cell) == ' ')
-                    full = false;
+            if (board.get(cell) == ' ')
+                full = false;
         return full;
     }
 
@@ -126,7 +126,7 @@ public class TicTacToe {
     /**
      * This method checks if it is possible to place a move at a given spot, specified by the row and the column.
      * If yes, it puts the mark of the current player in that place and returns true, else it returns false.
-     *<p>
+     * <p>
      * In case the method returns false, it could either mean that the spot isn't empty (there has already been placed
      * a mark), or the given row or column is out of the board's grid.
      *
@@ -138,7 +138,7 @@ public class TicTacToe {
         if ((row >= 0) && (row < 3))
             if ((col >= 0) && (col < 3))
                 if (board.get(row + "" + col) == ' ') {
-                    board.put(row + "" + col,this.currentPlayer);
+                    board.put(row + "" + col, this.currentPlayer);
                     return true;
                 }
         return false;
