@@ -1,0 +1,45 @@
+package ro.sci.teo.feb11.max;
+
+import java.util.InputMismatchException;
+import java.util.Scanner;
+
+/**
+ * 1. Calculate Max
+ * - Create a method getMax() with two integer (int) parameters, that returns maximal of the two numbers.
+ * - Write a program that reads three numbers from the console and prints the biggest of them. Use the getMax()
+ * method you just created.
+ */
+
+public class BiggestNumber {
+
+    public static void main(String[] args) {
+        try {
+            Scanner sc = new Scanner(System.in);
+
+            System.out.print("Input the first number: ");
+            int x = sc.nextInt();
+            System.out.print("Input the second number: ");
+            int y = sc.nextInt();
+            System.out.print("Input the last number: ");
+            int z = sc.nextInt();
+
+            BiggestNumber biggestNumber = new BiggestNumber();
+            System.out.println("\nThe biggest number is: " + biggestNumber.getMax(z, biggestNumber.getMax(x, y)));
+        } catch (InputMismatchException e) {
+            System.out.println("All program arguments should be natural numbers.");
+        }
+    }
+
+    /**
+     * This method finds the maximum of two numbers.
+     *
+     * @param a the first of the two numbers to be compared
+     * @param b the second of the two numbers to be compared
+     * @return the maximum value
+     */
+    public int getMax(int a, int b) {
+        if (a > b)
+            return a;
+        return b;
+    }
+}
