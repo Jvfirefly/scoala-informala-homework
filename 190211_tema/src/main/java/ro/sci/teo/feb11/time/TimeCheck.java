@@ -37,12 +37,16 @@ public class TimeCheck {
                 System.out.println("The time is " + h + ":" + minute + " now.");
         } catch (InputMismatchException e) {
             System.out.println("All program arguments should be natural numbers.");
+        } catch (IllegalArgumentException e) {
+            System.out.println("The hour or the minute is not valid.");
         }
     }
 
-    public boolean validateTime(int hour, int min) {
-        if (hour < 0 || hour > 23 || min < 0 || min > 59)
-            return false;
+    public boolean validateTime(int hour, int min) throws IllegalArgumentException {
+        if (hour < 0 || hour > 23 || min < 0 || min > 59) {
+            //return false;
+            throw new IllegalArgumentException("");
+        }
         return true;
     }
 }
