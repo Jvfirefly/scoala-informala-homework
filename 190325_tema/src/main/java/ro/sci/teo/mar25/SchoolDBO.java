@@ -5,6 +5,7 @@ import java.sql.*;
 /**
  * This class represents the database operator (DBO), where I establish the database connection and I implement
  * the required methods.
+ *
  * @author Teo
  */
 public class SchoolDBO {
@@ -30,7 +31,7 @@ public class SchoolDBO {
             throw new IllegalStateException("Connection already closed.");
     }
 
-    private void closeConnection() {
+    public void closeConnection() {
         checkConnection();
 
         try {
@@ -46,12 +47,12 @@ public class SchoolDBO {
     public void printClasses() {
         checkConnection();
 
-        Statement st = null;
+        PreparedStatement pst = null;
         ResultSet rs = null;
         final String format = "%10s%20s%20s%20s%20s%20s%20s\n";
         try {
-            st = this.connection.createStatement();
-            rs = st.executeQuery("select * from classes");
+            pst = this.connection.prepareStatement("select * from classes");
+            rs = pst.executeQuery();
             boolean hasResults = rs.next();
             if (hasResults) {
                 System.out.format(format, "ClassId", "CourseId", "Days", "StartTime", "EndTime", "Building", "RoomNum");
@@ -71,8 +72,8 @@ public class SchoolDBO {
                 rs.close();
             } catch (SQLException e) {
             }
-            if (st != null) try {
-                st.close();
+            if (pst != null) try {
+                pst.close();
             } catch (SQLException e) {
             }
         }
@@ -80,17 +81,19 @@ public class SchoolDBO {
 
     /**
      * Prints data for a course with a certain courseId.
+     *
      * @param courseId
      */
     public void printCourseWithId(int courseId) {
         checkConnection();
 
-        Statement st = null;
+        PreparedStatement pst = null;
         ResultSet rs = null;
         final String format = "%10s%20s%20s%50s%50s\n";
         try {
-            st = this.connection.createStatement();
-            rs = st.executeQuery("select * from courses where courseid=" + courseId);
+            pst = this.connection.prepareStatement("select * from courses where courseid = ?");
+            pst.setInt(1, courseId);
+            rs = pst.executeQuery();
             boolean hasResults = rs.next();
             if (hasResults) {
                 System.out.format(format, "CourseId", "Area", "Title", "Description", "Prerequisites");
@@ -109,8 +112,8 @@ public class SchoolDBO {
                 rs.close();
             } catch (SQLException e) {
             }
-            if (st != null) try {
-                st.close();
+            if (pst != null) try {
+                pst.close();
             } catch (SQLException e) {
             }
         }
@@ -118,19 +121,22 @@ public class SchoolDBO {
 
     /**
      * Prints data for all classes whose title (converted to lowercase letters) begins with a certain String.
+     *
      * @param titleBeginning
      */
     public void printClassesWithTitle(String titleBeginning) {
         checkConnection();
 
-        Statement st = null;
+        PreparedStatement pst = null;
         ResultSet rs = null;
         final String format = "%10s%20s%20s%20s%20s%20s%20s%20s\n";
         try {
-            st = this.connection.createStatement();
-            rs = st.executeQuery("select classid, classes.courseid, days, starttime, endtime, bldg, roomnum," +
+            pst = this.connection.prepareStatement("select classid, classes.courseid, " +
+                    "days, starttime, endtime, bldg, roomnum," +
                     "courses.title from classes inner join courses on classes.courseid = courses.courseid " +
-                    "where lower(courses.title) like lower('" + titleBeginning + "%')");
+                    "where lower(courses.title) like lower(?)");
+            pst.setString(1, titleBeginning + "%");
+            rs = pst.executeQuery();
             boolean hasResults = rs.next();
             if (hasResults) {
                 System.out.format(format, "ClassId", "CourseId", "Days", "StartTime", "EndTime", "Building", "RoomNum",
@@ -151,8 +157,8 @@ public class SchoolDBO {
                 rs.close();
             } catch (SQLException e) {
             }
-            if (st != null) try {
-                st.close();
+            if (pst != null) try {
+                pst.close();
             } catch (SQLException e) {
             }
         }
@@ -161,21 +167,24 @@ public class SchoolDBO {
     /**
      * Prints data for all classes whose dept (converted to lowercase letters) is a certain String and
      * whose coursenum begins with a certain digit.
-     * Since this is the last method in use, it also closes the connection to the school database.
+     *
      * @param dept
      * @param courseNumBeginning
      */
     public void printClassesWithDeptAndCourseNum(String dept, int courseNumBeginning) {
         checkConnection();
 
-        Statement st = null;
+        PreparedStatement pst = null;
         ResultSet rs = null;
         final String format = "%10s%20s%20s%20s%20s%20s%20s%20s%20s\n";
         try {
-            st = this.connection.createStatement();
-            rs = st.executeQuery("select classid, classes.courseid, days, starttime, endtime, bldg, roomnum, " +
-                    "dept, coursenum from classes inner join crosslistings on classes.courseid = crosslistings.courseid " +
-                    "where lower(dept) like lower('" + dept + "') and coursenum regexp '^" + courseNumBeginning + "'");
+            pst = this.connection.prepareStatement("select classid, classes.courseid, days, starttime, endtime, " +
+                    "bldg, roomnum, dept, coursenum " +
+                    "from classes inner join crosslistings on classes.courseid = crosslistings.courseid " +
+                    "where lower(dept) like lower(?) and coursenum regexp ?");
+            pst.setString(1, dept);
+            pst.setString(2, "^" + courseNumBeginning);
+            rs = pst.executeQuery();
             boolean hasResults = rs.next();
             if (hasResults) {
                 System.out.format(format, "ClassId", "CourseId", "Days", "StartTime", "EndTime", "Building", "RoomNum",
@@ -197,12 +206,10 @@ public class SchoolDBO {
                 rs.close();
             } catch (SQLException e) {
             }
-            if (st != null) try {
-                st.close();
+            if (pst != null) try {
+                pst.close();
             } catch (SQLException e) {
             }
-
-            closeConnection();
         }
     }
 }

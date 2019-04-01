@@ -22,5 +22,7 @@ public class Main {
 
         System.out.println("\nAll clases with dept=\"cos\" and coursenum beginning with \"3\":");
         schoolDBO.printClassesWithDeptAndCourseNum("cOs", 3);
+
+        schoolDBO.closeConnection();
     }
 }
